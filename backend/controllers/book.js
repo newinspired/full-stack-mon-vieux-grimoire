@@ -27,8 +27,6 @@ exports.modifyBook = (req, res, next) => {
       if (!book) {
         return res.status(404).json({ message: "Livre non trouvé." });
       }
-
-      // Vérifie que l'utilisateur connecté est bien le propriétaire du livre
       if (book.userId !== req.auth.userId) {
         return res.status(403).json({ message: "Non autorisé à modifier ce livre." });
       }
@@ -57,7 +55,6 @@ exports.deleteBook = (req, res, next) => {
         return res.status(404).json({ message: "Livre non trouvé." });
       }
 
-      // L'utilisateur connecté doit être le créateur du livre
       if (book.userId !== req.auth.userId) {
         return res.status(403).json({ message: "Non autorisé à supprimer ce livre." });
       }
@@ -77,8 +74,8 @@ exports.getAllStuff = (req, res, next) => {
 
 exports.getBestRatedBooks = (req, res, next) => {
   Book.find()
-    .sort({ averageRating: -1 })  // tri du plus haut au plus bas
-    .limit(3)                     // les 3 meilleurs
+    .sort({ averageRating: -1 })  
+    .limit(3)                    
     .then(books => res.status(200).json(books))
     .catch(error => res.status(400).json({ error }));
 };
