@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
+// SCHEMA UTILISATEUR
+
 const userSchema = mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+    // Vérification de l'unicité de l'e-mail dans la base de données
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
 });
 
 userSchema.plugin(uniqueValidator);
 
+// On exporte le modèle comme modèle réutilisable
 module.exports = mongoose.model('User', userSchema);
