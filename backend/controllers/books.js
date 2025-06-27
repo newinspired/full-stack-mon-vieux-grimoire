@@ -1,7 +1,6 @@
 const Book = require('../models/book');
 const fs = require('fs');
 
-// Logique métier - Contrôleur
 
 // POST => Enregistrement d'un livre
 

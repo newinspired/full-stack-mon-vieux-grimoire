@@ -38,8 +38,8 @@ const resizeImage = (req, res, next) => {
     .resize({ width: 206, height: 260 })
     .toFile(outputFilePath)
     .then(() => {
-      fs.unlink(filePath, () => {
-        req.file.path = outputFilePath;
+      fs.unlink(filePath, () => { // SUPPRIME L IMAGE ORIGINALE (NON OPTIMISÉE)
+        req.file.path = outputFilePath; // MET À JOUR LE CHEMIN DU FICHIER DANS LA REQUÊTE
         next();
       });
     })
