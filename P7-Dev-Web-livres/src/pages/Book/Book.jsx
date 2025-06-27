@@ -47,7 +47,7 @@ function Book() {
     } else if (!userLoading && !connectedUser && book) {
       setLoading(false);
     }
-  }, [book, userLoading]);
+  }, [book, userLoading, connectedUser]);
 
   const onDelete = async (e) => {
     if (e.key && e.key !== "Enter") {
@@ -91,20 +91,25 @@ function Book() {
               </div>
             ) : null}
             <BookInfo book={book} />
-            <BookRatingForm
-              userRated={userRated}
-              userId={connectedUser?.userId}
-              rating={rating}
-              setRating={setRating}
-              setBook={setBook}
-              id={book.id}
-            />
+
+            {/* ✅ Modification ici : seulement si user connecté et chargé */}
+            {!userLoading && connectedUser && (
+              <BookRatingForm
+                userRated={userRated}
+                userId={connectedUser.userId}
+                rating={rating}
+                setRating={setRating}
+                setBook={setBook}
+                id={book.id}
+              />
+            )}
           </div>
         </div>
         <hr />
-        <BestRatedBooks />
+        <BestRatedBooks currentBookId={book?.id} />
       </div>
     ) : null;
+
   const deletedContent = book?.delete ? (
     <div className={styles.Deleted}>
       <h1>{book.title}</h1>
@@ -128,4 +133,5 @@ function Book() {
     </div>
   );
 }
+
 export default Book;

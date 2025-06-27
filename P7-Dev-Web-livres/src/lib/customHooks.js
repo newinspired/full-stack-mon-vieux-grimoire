@@ -20,16 +20,20 @@ export function useUser() {
   return { connectedUser, auth, userLoading };
 }
 
-export function useBestRatedBooks() {
-  const [bestRatedBooks, setBestRatedBooks] = useState({});
+export function useBestRatedBooks(currentBookId) {
+  const [bestRatedBooks, setBestRatedBooks] = useState([]);
 
   useEffect(() => {
-    async function getRatedBooks() {
+    if (!currentBookId) return; // ✅ Protection : éviter appel si ID manquant
+
+    async function fetchBestRated() {
       const books = await getBestRatedBooks();
-      setBestRatedBooks(books);
+      const filtered = books.filter((book) => book.id !== currentBookId); // ✅ ne pas recommander le livre actuel
+      setBestRatedBooks(filtered);
     }
-    getRatedBooks();
-  }, []);
+
+    fetchBestRated();
+  }, [currentBookId]);
 
   return { bestRatedBooks };
 }
